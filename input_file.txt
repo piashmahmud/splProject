@@ -1,0 +1,9 @@
+#include<stdio.h>
+
+int main(){
+	int abc;
+	scanf("%d",&abc);
+	abc++;
+	printf("Hello World no %d",abc);
+	return 0;
+}
