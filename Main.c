@@ -4,7 +4,7 @@
 
 #define MAX_LEN 1000
 
-int main(){
+
 struct Node {
     int index;
     char type[20];
@@ -16,7 +16,7 @@ char inputFileString[MAX_LEN+1];
 
 void fileReader(){
     int i,ch;
-    char inputFileString[MAX_LEN+1];
+
 
     FILE *inputFile = fopen("input_file.txt","r"); //reading all the character
     for (i = 0; (i < (sizeof(inputFileString)-1) && ((ch = fgetc(inputFile)) != EOF)); i++)

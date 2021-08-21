@@ -4,6 +4,6 @@ int main(){
 	int abc;
 	scanf("%d",&abc);
 	abc++;
-	printf("Hello World no %d",abc);
+	printf("Hello World! %d",abc);
 	return 0;
 }
