@@ -1,19 +1,19 @@
 #include<stdio.h>
 #include <stdlib.h>
+
 #define MAX_LEN 1000
+#define MAX_DIV 500
 
 struct Node {
-    int index;
     int type;
-    struct Node* next;
-    struct Node* previous;
-};
-struct Node head;
+    int position;
+} dividers[MAX_DIV];
 int dividingChars=0;
 char inputFileString[MAX_LEN+1];
 
 void fileReader(){
     int i,ch;
+
     FILE *inputFile = fopen("input_file.txt","r"); //reading all the character
     for (i = 0; (i < (sizeof(inputFileString)-1) && ((ch = fgetc(inputFile)) != EOF)); i++)
       inputFileString[i] = ch;
@@ -21,130 +21,70 @@ void fileReader(){
     fclose(inputFile);
 }
 
-
-void printList(struct Node* n){
-    while (n != NULL) {
-
-        printf(" %d. %d\n", n->index,n->type);
-        n = n->next;
-    }
-}
-
 void stringParsing(){
-    struct Node current, next, prev;
     int currentIndx = 0;
-
     for(int i=0; i<MAX_LEN && inputFileString[i] != '\0'; i++){
         if(inputFileString[i]==','){
-            current.index = currentIndx;
-            current.type=1;
-            current.next = (struct Node) NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=1;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]==';'){
-            current.index = currentIndx;
-            current.type=2;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=2;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]==' '){
-            current.index = currentIndx;
-            current.type=3;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=3;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]=='\n'){
-            current.index = currentIndx;
-            current.type=4;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=4;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]=='('){
-            current.index = currentIndx;
-            current.type=5;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=5;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]==')'){
-            current.index = currentIndx;
-            current.type=6;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=6;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]=='{'){
-            current.index = currentIndx;
-            current.type=7;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=7;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]=='}'){
-            current.index = currentIndx;
-            current.type=8;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=8;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]=='['){
-            current.index = currentIndx;
-            current.type=9;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=9;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
         else if(inputFileString[i]==']'){
-            current.index = currentIndx;
-            current.type=10;
-            current.next = NULL;
-            current.previous = prev;
-
-            if(currentIndx==0) head = current;
+            dividers[currentIndx].type=10;
+            dividers[currentIndx].position=i;
             currentIndx++;
-            prev = current;
             dividingChars++;
         }
+
     }
 
 }
@@ -152,8 +92,11 @@ void stringParsing(){
 int main(){
     fileReader();
     stringParsing();
-    printList(head);
-    printf("%s",inputFileString);
+    printf("%s\n\n\n\n",inputFileString);
 
- return 0;
+    for(int i=0; i<dividingChars;i++){
+        printf("%d, %d\n",dividers[i].type, dividers[i].position);
+    }
+
+    return 0;
 }
