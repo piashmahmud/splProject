@@ -1,9 +1,13 @@
-#include<stdio.h>
+start VarInt add (VarInt a, VarInt b)
+VarInt c
+c = a + b
+stop add give c
 
-int main(){
-	int abc;
-	scanf("%d",&abc);
-	abc++;
-	printf("Hello World! %d",abc);
-	return 0;
-}
+start VarInt main()
+VarInt a,b,c
+get( a )
+get( b )
+c = add(a, b)
+print "\n"
+print c
+stop main give 0
