@@ -91,7 +91,36 @@ void stringParsing(){
             currentIndx++;
             dividingChars++;
         }
-
+        else if(inputFileString[i]=='+'){
+            dividers[currentIndx].type=11;
+            dividers[currentIndx].position=i;
+            currentIndx++;
+            dividingChars++;
+        }
+        else if(inputFileString[i]=='-'){
+            dividers[currentIndx].type=12;
+            dividers[currentIndx].position=i;
+            currentIndx++;
+            dividingChars++;
+        }
+        else if(inputFileString[i]=='*'){
+            dividers[currentIndx].type=13;
+            dividers[currentIndx].position=i;
+            currentIndx++;
+            dividingChars++;
+        }
+        else if(inputFileString[i]=='/'){
+            dividers[currentIndx].type=14;
+            dividers[currentIndx].position=i;
+            currentIndx++;
+            dividingChars++;
+        }
+        else if(inputFileString[i]=='='){
+            dividers[currentIndx].type=15;
+            dividers[currentIndx].position=i;
+            currentIndx++;
+            dividingChars++;
+        }
     }
 
 }
@@ -101,17 +130,38 @@ bool stringMatching(int indxIn, int key){
     for(int i=0;keywords[key][i]!='\0';i++){
         if(keywords[key][i]!=inputFileString[indxIn+i] && keywords[key][i]!='\0' ){
             retVal = false;
-            printf("false\n");
             break;
         }
     }
     if(retVal){
-        printf("true\n");
         return retVal;
     }
     else return false;
 }
 
+void outputInitializer(){
+    outputFileString[0]='\n';
+    outputFileString[1]='#';
+    outputFileString[2]='i';
+    outputFileString[3]='n';
+    outputFileString[4]='c';
+    outputFileString[5]='l';
+    outputFileString[6]='u';
+    outputFileString[7]='d';
+    outputFileString[8]='e';
+    outputFileString[9]='<';
+    outputFileString[10]='s';
+    outputFileString[11]='t';
+    outputFileString[12]='d';
+    outputFileString[13]='i';
+    outputFileString[14]='o';
+    outputFileString[15]='.';
+    outputFileString[16]='h';
+    outputFileString[17]='>';
+    outputFileString[18]='\n';
+    outputFileString[19]='\n';
+    gap = 20;
+}
 
 int main(){
     int inIndx=0,divIndx=0,x,y;
@@ -123,15 +173,18 @@ int main(){
         printf("%d, %d\n",dividers[i].type, dividers[i].position);
     }
 
-   for(int i=0; i<10;i++){
+    /*for(int i=0; i<10;i++){
         printf("%s\n",keywords[i]);
-    }
+    }*/
 
-    printf("\n\n\n\n");
-    while(inIndx<=MAX_LEN){
-        if( dividers[divIndx].position+1 == inIndx && dividers[divIndx+1].position-dividers[divIndx].position==7 && stringMatching(inIndx,0) ){
-            printf("at divider %d pos %d\n",divIndx,dividers[divIndx].position);
-            printf("string matching working\n");
+
+    outputInitializer();
+    while(1){
+        //checking for VarInt
+        if( dividers[divIndx].position+1 == inIndx &&
+           dividers[divIndx+1].position-dividers[divIndx].position==7 &&
+           stringMatching(inIndx,0) )
+        {
             outputFileString[inIndx+gap]='i';
             outputFileString[inIndx+1+gap]='n';
             outputFileString[inIndx+2+gap]='t';
@@ -143,10 +196,11 @@ int main(){
             outputFileString[inIndx+gap] = inputFileString[inIndx];
             inIndx++;
             if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+            if(inputFileString[inIndx-1]=='\0') break;
         }
     }
 
-    printf("%s",outputFileString);
+    printf("%s\n\n",outputFileString);
 
     return 0;
 }
