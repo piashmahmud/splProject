@@ -5,9 +5,9 @@ stop add give c
 
 start VarInt main()
 VarInt a,b,c
-get( a )
-get( b )
+get("%d", &a )
+get("%d", &b )
 c = add(a, b)
-print "\n"
-print c
+print ("\n")
+print ("%d",c)
 stop main give 0

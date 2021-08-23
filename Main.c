@@ -1,4 +1,3 @@
-
 #include<stdio.h>
 #include <stdlib.h>
 #include<stdbool.h>
@@ -210,6 +209,33 @@ void variableTranslator(){
             outputFileString[inIndx+3+gap]='a';
             outputFileString[inIndx+4+gap]='t';
             gap-=1;
+            inIndx = dividers[divIndx+1].position;
+            divIndx++;
+        }
+        else if( dividers[divIndx].position+1 == inIndx &&
+           dividers[divIndx+1].position-dividers[divIndx].position==6 &&
+           stringMatching(inIndx,5) )
+        {
+            outputFileString[inIndx+gap]='p';
+            outputFileString[inIndx+1+gap]='r';
+            outputFileString[inIndx+2+gap]='i';
+            outputFileString[inIndx+3+gap]='n';
+            outputFileString[inIndx+4+gap]='t';
+            outputFileString[inIndx+5+gap]='f';
+            gap+=1;
+            inIndx = dividers[divIndx+1].position;
+            divIndx++;
+        }
+        else if( dividers[divIndx].position+1 == inIndx &&
+           dividers[divIndx+1].position-dividers[divIndx].position==4 &&
+           stringMatching(inIndx,6) )
+        {
+            outputFileString[inIndx+gap]='s';
+            outputFileString[inIndx+1+gap]='c';
+            outputFileString[inIndx+2+gap]='a';
+            outputFileString[inIndx+3+gap]='n';
+            outputFileString[inIndx+4+gap]='f';
+            gap+=2;
             inIndx = dividers[divIndx+1].position;
             divIndx++;
         }
