@@ -382,13 +382,8 @@ int main(){
     int x,y,i;
     fileReader();
     stringParsing();
-    //printf("%s\n\n\n\n",inputFileString);
-
-    for(int i=0; i<dividingChars;i++){
-        printf("%d, %d\n",dividers[i].type, dividers[i].position);
-    }
-
     outputInitializer();
+
     //replacing all the variable names for their c counterparts
     variableTranslator();
 
@@ -398,6 +393,7 @@ int main(){
     }
     inputFileString[i]='\0';
     stringParsing();
+
     //replacing all the functions by the formate of their c counterpart
     functionTranslator();
 
@@ -416,7 +412,7 @@ int main(){
     fprintf(outputFile,"%s",outputFileString);
     fclose(outputFile);
 
-    printf("%s\n\n",outputFileString);
+    //printf("%s\n\n",outputFileString);
 
     return 0;
 }
