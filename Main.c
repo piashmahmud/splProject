@@ -1,3 +1,4 @@
+
 #include<stdio.h>
 #include <stdlib.h>
 #include<stdbool.h>
@@ -12,7 +13,7 @@ struct Node {
 int dividingChars=0;
 char inputFileString[MAX_LEN+1];
 char outputFileString[MAX_LEN];
-int gap = 0;
+int gap = 0, inIndx=0,divIndx=0;
 char keywords[10][20]={"VarInt","VarChar","VarNum","start","stop","print","get","give","loop","if"};
 
 void fileReader(){
@@ -143,15 +144,15 @@ bool stringMatching(int indxIn, int key){
 }
 
 void outputInitializer(){
-    outputFileString[0]='\n';
-    outputFileString[1]='#';
-    outputFileString[2]='i';
-    outputFileString[3]='n';
-    outputFileString[4]='c';
-    outputFileString[5]='l';
-    outputFileString[6]='u';
-    outputFileString[7]='d';
-    outputFileString[8]='e';
+    outputFileString[0]='#';
+    outputFileString[1]='i';
+    outputFileString[2]='n';
+    outputFileString[3]='c';
+    outputFileString[4]='l';
+    outputFileString[5]='u';
+    outputFileString[6]='d';
+    outputFileString[7]='e';
+    outputFileString[8]=' ';
     outputFileString[9]='<';
     outputFileString[10]='s';
     outputFileString[11]='t';
@@ -170,22 +171,7 @@ void stringDeleter(int str, int pos, int amount){
 
 }
 
-int main(){
-    int inIndx=0,divIndx=0,x,y,i;
-    fileReader();
-    stringParsing();
-    //printf("%s\n\n\n\n",inputFileString);
-
-    for(int i=0; i<dividingChars;i++){
-        printf("%d, %d\n",dividers[i].type, dividers[i].position);
-    }
-
-    /*for(int i=0; i<10;i++){
-        printf("%s\n",keywords[i]);
-    }*/
-
-
-    outputInitializer();
+void variableTranslator(){
     //checking for variable tokens
     while(1){
         //checking for VarInt
@@ -234,14 +220,9 @@ int main(){
             if(inputFileString[inIndx-1]=='\0') break;
         }
     }
+}
 
-    //copying the output to input for a new iteration
-    for(i=0;outputFileString[i]!='\0';i++){
-        inputFileString[i]=outputFileString[i];
-    }
-    inputFileString[i]='\0';
-    stringParsing();
-
+void functionTranslator(){
     //tokenising function
     inIndx=0;
     divIndx=0;
@@ -337,6 +318,55 @@ int main(){
             outputFileString[inIndx+gap] = inputFileString[inIndx];
             inIndx++;
             if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+            if(inputFileString[inIndx-1]=='\0') break;
+        }
+    }
+}
+
+int main(){
+    int x,y,i;
+    fileReader();
+    stringParsing();
+    //printf("%s\n\n\n\n",inputFileString);
+
+    for(int i=0; i<dividingChars;i++){
+        printf("%d, %d\n",dividers[i].type, dividers[i].position);
+    }
+
+    outputInitializer();
+    //replacing all the variable names for their c counterparts
+    variableTranslator();
+
+    //copying the output to input for a new iteration
+    for(i=0;outputFileString[i]!='\0';i++){
+        inputFileString[i]=outputFileString[i];
+    }
+    inputFileString[i]='\0';
+    stringParsing();
+    //replacing all the functions by the formate of their c counterpart
+    functionTranslator();
+
+    //copying the output to input for a new iteration
+    for(i=0;outputFileString[i]!='\0';i++){
+        inputFileString[i]=outputFileString[i];
+    }
+    inputFileString[i]='\0';
+    stringParsing();
+
+    inIndx=0;
+    gap=0;
+    //semicolon
+    while(1){
+        //checking for \n
+        if( inputFileString[inIndx] == '\n' && inputFileString[inIndx-1] != '{' && inputFileString[inIndx-1] != '}' && inputFileString[inIndx-1] != ';' && inputFileString[inIndx-1] != '\n' && inputFileString[inIndx-1] !='>'){
+            outputFileString[inIndx+gap]=';';
+            outputFileString[inIndx+1+gap]='\n';
+            gap+=1;
+            inIndx++;
+        }
+        else {
+            outputFileString[inIndx+gap] = inputFileString[inIndx];
+            inIndx++;
             if(inputFileString[inIndx-1]=='\0') break;
         }
     }
