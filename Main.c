@@ -29,6 +29,7 @@ void stringParsing(){
     int currentIndx = 1;
     dividers[0].type=0;
     dividers[0].position=-1;
+    dividingChars=0;
 
     for(int i=0; i<MAX_LEN && inputFileString[i] != '\0'; i++){
         if(inputFileString[i]==','){
@@ -163,8 +164,12 @@ void outputInitializer(){
     gap = 20;
 }
 
+void stringDeleter(int str, int pos, int amount){
+
+}
+
 int main(){
-    int inIndx=0,divIndx=0,x,y;
+    int inIndx=0,divIndx=0,x,y,i;
     fileReader();
     stringParsing();
     //printf("%s\n\n\n\n",inputFileString);
@@ -219,6 +224,112 @@ int main(){
             gap-=1;
             inIndx = dividers[divIndx+1].position;
             divIndx++;
+        }
+        else {
+            outputFileString[inIndx+gap] = inputFileString[inIndx];
+            inIndx++;
+            if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+            if(inputFileString[inIndx-1]=='\0') break;
+        }
+    }
+
+    //copying the output to input for a new iteration
+    for(i=0;outputFileString[i]!='\0';i++){
+        inputFileString[i]=outputFileString[i];
+    }
+    inputFileString[i]='\0';
+    stringParsing();
+
+    //tokenising function
+    inIndx=0;
+    divIndx=0;
+    gap=0;
+
+    while(1){
+        if( dividers[divIndx].position+1 == inIndx && dividers[divIndx+1].position-dividers[divIndx].position==6 && stringMatching(inIndx,3) ){
+
+            //deleting the first start
+            gap-=5;
+            inIndx = dividers[divIndx+1].position;
+            divIndx++;
+
+            //searching for first new line
+            while(1){
+                if(inputFileString[inIndx]=='\n'){
+                    outputFileString[inIndx+gap]='{';
+                    outputFileString[inIndx+gap+1]='\n';
+                    gap+=1;
+                    inIndx++;
+                    divIndx++;
+                    break;
+                }
+                else {
+                    outputFileString[inIndx+gap] = inputFileString[inIndx];
+                    inIndx++;
+                    if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+                    if(inputFileString[inIndx-1]=='\0') break;
+                }
+            }
+
+            //searching for first stop
+            while(1){
+                if( dividers[divIndx].position+1 == inIndx && dividers[divIndx+1].position-dividers[divIndx].position==5 && stringMatching(inIndx,4) ){
+                    //deleting the first stop
+                    gap-=4;
+                    inIndx = dividers[divIndx+1].position;
+                    divIndx++;
+                    break;
+                }
+                else {
+                    outputFileString[inIndx+gap] = inputFileString[inIndx];
+                    inIndx++;
+                    if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+                    if(inputFileString[inIndx-1]=='\0') break;
+                }
+            }
+
+            //searching for first give
+            while(1){
+                if( dividers[divIndx].position+1 == inIndx && dividers[divIndx+1].position-dividers[divIndx].position==5 && stringMatching(inIndx,7) ){
+                    outputFileString[inIndx+gap]='r';
+                    outputFileString[inIndx+gap+1]='e';
+                    outputFileString[inIndx+gap+2]='t';
+                    outputFileString[inIndx+gap+3]='u';
+                    outputFileString[inIndx+gap+4]='r';
+                    outputFileString[inIndx+gap+5]='n';
+                    gap+=2;
+                    inIndx = dividers[divIndx+1].position;
+                    divIndx++;
+                    break;
+                }
+                else {
+                    //no need to copy the function name
+                    gap++;
+                    inIndx++;
+                    if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+                    if(inputFileString[inIndx-1]=='\0') break;
+                }
+            }
+            //searching for first new line
+            while(1){
+                if(inputFileString[inIndx]=='\n'){
+                    outputFileString[inIndx+gap]=';';
+                    outputFileString[inIndx+gap+1]='\n';
+                    outputFileString[inIndx+gap+2]='}';
+                    outputFileString[inIndx+gap+3]='\n';
+                    gap+=3;
+                    inIndx++;
+                    divIndx++;
+                    break;
+                }
+                else {
+                    outputFileString[inIndx+gap] = inputFileString[inIndx];
+                    inIndx++;
+                    if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+                    if(inputFileString[inIndx-1]=='\0') break;
+                }
+            }
+
         }
         else {
             outputFileString[inIndx+gap] = inputFileString[inIndx];
