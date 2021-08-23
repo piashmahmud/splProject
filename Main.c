@@ -253,6 +253,7 @@ void functionTranslator(){
     inIndx=0;
     divIndx=0;
     gap=0;
+    int foundNL = 0;
 
     while(1){
         if( dividers[divIndx].position+1 == inIndx && dividers[divIndx+1].position-dividers[divIndx].position==6 && stringMatching(inIndx,3) ){
@@ -311,6 +312,14 @@ void functionTranslator(){
                     divIndx++;
                     break;
                 }
+                //if there is no return then nothing
+                else if(inputFileString[inIndx]=='\n'){
+                    outputFileString[inIndx+gap]='}';
+                    outputFileString[inIndx+gap+1]='\n';
+                    gap++;
+                    foundNL=1;
+                    break;
+                }
                 else {
                     //no need to copy the function name
                     gap--;
@@ -320,7 +329,7 @@ void functionTranslator(){
                 }
             }
             //searching for first new line
-            while(1){
+            while(!foundNL){
                 if(inputFileString[inIndx]=='\n'){
                     outputFileString[inIndx+gap]=';';
                     outputFileString[inIndx+gap+1]='\n';
@@ -344,6 +353,26 @@ void functionTranslator(){
             outputFileString[inIndx+gap] = inputFileString[inIndx];
             inIndx++;
             if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
+            if(inputFileString[inIndx-1]=='\0') break;
+        }
+    }
+}
+
+void semicolonTranslator(){
+    inIndx=0;
+    gap=0;
+    //semicolon
+    while(1){
+        //checking for \n
+        if( inputFileString[inIndx] == '\n' && inputFileString[inIndx-1] != '{' && inputFileString[inIndx-1] != '}' && inputFileString[inIndx-1] != ';' && inputFileString[inIndx-1] != '\n' && inputFileString[inIndx-1] !='>'){
+            outputFileString[inIndx+gap]=';';
+            outputFileString[inIndx+1+gap]='\n';
+            gap+=1;
+            inIndx++;
+        }
+        else {
+            outputFileString[inIndx+gap] = inputFileString[inIndx];
+            inIndx++;
             if(inputFileString[inIndx-1]=='\0') break;
         }
     }
@@ -379,23 +408,13 @@ int main(){
     inputFileString[i]='\0';
     stringParsing();
 
-    inIndx=0;
-    gap=0;
-    //semicolon
-    while(1){
-        //checking for \n
-        if( inputFileString[inIndx] == '\n' && inputFileString[inIndx-1] != '{' && inputFileString[inIndx-1] != '}' && inputFileString[inIndx-1] != ';' && inputFileString[inIndx-1] != '\n' && inputFileString[inIndx-1] !='>'){
-            outputFileString[inIndx+gap]=';';
-            outputFileString[inIndx+1+gap]='\n';
-            gap+=1;
-            inIndx++;
-        }
-        else {
-            outputFileString[inIndx+gap] = inputFileString[inIndx];
-            inIndx++;
-            if(inputFileString[inIndx-1]=='\0') break;
-        }
-    }
+    //to replace newlines with semicolon and new line
+    semicolonTranslator();
+
+    FILE* outputFile;
+    outputFile = fopen("output_file.c","w");
+    fprintf(outputFile,"%s",outputFileString);
+    fclose(outputFile);
 
     printf("%s\n\n",outputFileString);
 
