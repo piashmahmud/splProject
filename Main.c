@@ -13,7 +13,7 @@ int dividingChars=0;
 char inputFileString[MAX_LEN+1];
 char outputFileString[MAX_LEN];
 int gap = 0;
-char keywords[10][20]={"VarInt","start","stop","main","print","get","give","loop","VarChar","if"};
+char keywords[10][20]={"VarInt","VarChar","VarNum","start","stop","print","get","give","loop","if"};
 
 void fileReader(){
     int i,ch;
@@ -179,6 +179,7 @@ int main(){
 
 
     outputInitializer();
+    //checking for variable tockens
     while(1){
         //checking for VarInt
         if( dividers[divIndx].position+1 == inIndx &&
@@ -189,6 +190,33 @@ int main(){
             outputFileString[inIndx+1+gap]='n';
             outputFileString[inIndx+2+gap]='t';
             gap-=3;
+            inIndx = dividers[divIndx+1].position;
+            divIndx++;
+        }
+        //checking for VarChar
+        else if( dividers[divIndx].position+1 == inIndx &&
+           dividers[divIndx+1].position-dividers[divIndx].position==8 &&
+           stringMatching(inIndx,1) )
+        {
+            outputFileString[inIndx+gap]='c';
+            outputFileString[inIndx+1+gap]='h';
+            outputFileString[inIndx+2+gap]='a';
+            outputFileString[inIndx+3+gap]='r';
+            gap-=3;
+            inIndx = dividers[divIndx+1].position;
+            divIndx++;
+        }
+        //checking for varnum
+        else if( dividers[divIndx].position+1 == inIndx &&
+           dividers[divIndx+1].position-dividers[divIndx].position==7 &&
+           stringMatching(inIndx,2) )
+        {
+            outputFileString[inIndx+gap]='f';
+            outputFileString[inIndx+1+gap]='l';
+            outputFileString[inIndx+2+gap]='o';
+            outputFileString[inIndx+3+gap]='a';
+            outputFileString[inIndx+4+gap]='t';
+            gap-=1;
             inIndx = dividers[divIndx+1].position;
             divIndx++;
         }
