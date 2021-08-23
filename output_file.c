@@ -1,26 +1,21 @@
 #include <stdio.h>
 
- int sum(int a, int b){
+ int add (int a, int b){
 int c;
-c=a+b;
+c = a + b;
 return c;
 }
 
  int main(){
-int a,b,c,i;
-scanf a;
-scanf b;
-int p[5];
-
-loop(i=0);
-scanf p[i];
-i++;
-loop(i>a);
-
-c=sum(a,b);
-printf "\nsum= ";
-printf c;
+int a,b,c;
+scanf("%d", &a );
+scanf("%d", &b );
+c = add(a, b);
+for(int i=0; i< 5; i++){
+printf("loop works\n");
+}
+printf ("\n");
+printf ("%d",c);
 return 0;
 }
-
 

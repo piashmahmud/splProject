@@ -13,7 +13,7 @@ int dividingChars=0;
 char inputFileString[MAX_LEN+1];
 char outputFileString[MAX_LEN];
 int gap = 0, inIndx=0,divIndx=0;
-char keywords[10][20]={"VarInt","VarChar","VarNum","start","stop","print","get","give","loop","if"};
+char keywords[9][20]={"VarInt","VarChar","VarNum","start","stop","print","get","give","loop"};
 
 void fileReader(){
     int i,ch;
@@ -223,6 +223,17 @@ void variableTranslator(){
             outputFileString[inIndx+4+gap]='t';
             outputFileString[inIndx+5+gap]='f';
             gap+=1;
+            inIndx = dividers[divIndx+1].position;
+            divIndx++;
+        }
+        else if( dividers[divIndx].position+1 == inIndx &&
+           dividers[divIndx+1].position-dividers[divIndx].position==5 &&
+           stringMatching(inIndx,8) )
+        {
+            outputFileString[inIndx+gap]='f';
+            outputFileString[inIndx+1+gap]='o';
+            outputFileString[inIndx+2+gap]='r';
+            gap-=1;
             inIndx = dividers[divIndx+1].position;
             divIndx++;
         }

@@ -1,20 +1,16 @@
-start VarInt sum(VarInt a, VarInt b)
+start VarInt add (VarInt a, VarInt b)
 VarInt c
-c=a+b;
-stop sum give c
+c = a + b
+stop add give c
 
 start VarInt main()
-VarInt a,b,c,i
-get a
-get b
-VarInt p[5]
-
-loop(i=0)
-get p[i]
-i++
-loop(i>a)
-
-c=sum(a,b)
-print "\nsum= "
-print c
+VarInt a,b,c
+get("%d", &a )
+get("%d", &b )
+c = add(a, b)
+loop(int i=0; i< 5; i++){
+print("loop works\n")
+}
+print ("\n")
+print ("%d",c)
 stop main give 0
