@@ -300,6 +300,7 @@ void functionTranslator(){
 
             //searching for first give
             while(1){
+                foundNL = 0;
                 if( dividers[divIndx].position+1 == inIndx && dividers[divIndx+1].position-dividers[divIndx].position==5 && stringMatching(inIndx,7) ){
                     outputFileString[inIndx+gap]='r';
                     outputFileString[inIndx+gap+1]='e';
