@@ -21,7 +21,9 @@ void fileReader(){
     FILE *inputFile = fopen("input_file.txt","r"); //reading all the character
     for (i = 0; (i < (sizeof(inputFileString)-1) && ((ch = fgetc(inputFile)) != EOF)); i++)
       inputFileString[i] = ch;
-    inputFileString[i] = '\0';
+    inputFileString[i]='\n';
+    inputFileString[i+1]='\n';
+    inputFileString[i+2] = '\0';
     fclose(inputFile);
 }
 
@@ -184,7 +186,7 @@ int main(){
 
 
     outputInitializer();
-    //checking for variable tockens
+    //checking for variable tokens
     while(1){
         //checking for VarInt
         if( dividers[divIndx].position+1 == inIndx &&
@@ -304,7 +306,7 @@ int main(){
                 }
                 else {
                     //no need to copy the function name
-                    gap++;
+                    gap--;
                     inIndx++;
                     if(inIndx-1 == dividers[divIndx+1].position) divIndx++;
                     if(inputFileString[inIndx-1]=='\0') break;
