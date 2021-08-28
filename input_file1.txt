@@ -3,16 +3,44 @@ VarInt c
 c=a+b;
 stop sum give c
 
+start VarInt prime(VarInt a)
+VarInt c=0,i=2
+loop(i<=a/2){
+if(a%i==0){
+c=1;
+break;
+}
+i++
+}
+stop prime give c
+
 start VarInt main()
-VarInt a,b,c,i
+VarInt a,b,c,i,d
 get a
 get b
-VarInt p[5]
+array p[5]
+string s[5]
 
-loop(i=0)
+d=prime(a)
+if(d==0){
+print a <<" is prime\n"
+}
+
+else{
+print a<<" isn't prime\n"
+}
+
+i=0;
+loop(i<5){
+int j=3;
+loop(j<4){
+print 1
+print "\n"
+j++
+}
 get p[i]
 i++
-loop(i>a)
+}
 
 c=sum(a,b)
 print "\nsum= "
